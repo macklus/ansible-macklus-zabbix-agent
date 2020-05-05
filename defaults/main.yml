@@ -1,0 +1,7 @@
+---
+# file: defaults/main.yml
+macklus:
+  zabbix:
+    agent:
+      install: false
+      version: 4.4

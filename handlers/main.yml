@@ -1,0 +1,10 @@
+---
+# file: handlers/main.yml
+
+- name: restart-zabbix-agent
+  service: 
+    name: nginx
+    state: restarted  
+    enabled: yes
+  become: yes
+  when: ansible_distribution == "Ubuntu"
