@@ -1,0 +1,32 @@
+---
+# file: tasks/install/Ubuntu.yml
+
+- name: define URL
+  set_fact:
+    zabbix_repo_url: "https://repo.zabbix.com/zabbix/{{ macklus.zabbix.agent.version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/"
+
+- name: Download zabbix-release page
+  set_fact:
+    zabbix_repo_html: "{{ lookup('url', zabbix_repo_url, split_lines=False) }}"
+
+- set_fact:
+    zabbix_repo_version: "{{ zabbix_repo_html | regex_findall('<a href=\"zabbix-release_(\\d+.\\d+-\\d+)%2B\\w+.deb') | first }}"
+
+- name: Install zabbix-release package
+  apt:
+    deb: "https://repo.zabbix.com/zabbix/{{ macklus.zabbix.agent.version }}/{{ ansible_distribution|lower }}/pool/main/z/zabbix-release/zabbix-release_{{ zabbix_repo_version }}+{{ ansible_distribution_release }}_all.deb"
+
+- name: Install zabbix-agent
+  apt:
+    name: [ 'zabbix-agent', 'zabbix-get', 'zabbix-sender' ]
+    update_cache: yes
+  notify: restart-zabbix-agent
+
+- name: Create /etc/zabbix/zabbix_agentd.conf
+  template:
+    src: "{{ macklus.zabbix.agent.version }}/zabbix_agentd.conf.j2"
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart-zabbix-agent
