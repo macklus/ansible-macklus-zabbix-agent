@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: zabbix-agent
+  role_name: zabbix_agent
   author: José Pedro Andrés
   description: Install and configure zabbix-agent
   company: none
