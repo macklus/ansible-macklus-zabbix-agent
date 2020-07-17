@@ -18,4 +18,4 @@ galaxy_info:
     versions:
     - all
 
-  galaxy_tags: [ 'macklus', 'zabbix', 'agent', 'zabbix agent', 'debian', 'ubuntu', 'fedora', 'centos']
+  galaxy_tags: [ 'macklus', 'zabbix', 'agent', 'zabbix_agent', 'debian', 'ubuntu', 'fedora', 'centos']
