@@ -3,5 +3,47 @@
 macklus:
   zabbix:
     agent:
-      install: false
-      version: 4.4
+      version: 5.0
+      pidfile: /run/zabbix/zabbix_agentd.pid
+      logfile: /var/log/zabbix/zabbix_agentd.log
+      logfilesize: 0
+      #debuglevel: 3
+      #sourceip:
+      #allowkey:
+      #denykey:
+      #logremotecommands:
+      server: 127.0.0.1
+      #listenport:
+      #listenip:
+      #startagents:
+      serveractive: 127.0.0.1
+      hostname:
+      hostnameitem:
+      #hostmetadata:
+      #hostmetadataitem:
+      #hostinterface:
+      #hostinterfaceitem:
+      #refreshactivechecks:
+      #buffersend:
+      #buffersize:
+      #maxlinespersecond:
+      #timeout:
+      #allowroot:
+      #user:
+      #unsafeuserparameters:
+      #tlsconnect: unencrypted
+      #tlsaccept: unencrypted
+      #tlscafile:
+      #tlscrlfile:
+      #tlsservercertissuer:
+      #tlsservercertsubject:
+      #tlscertfile:
+      #tlskeyfile:
+      #tlspskidentity:
+      #tlspskfile:
+      #tlsciphercert13 is defined:
+      #tlsciphercert:
+      #tlscipherpsk13:
+      #tlscipherpsk:
+      #tlscipherall13:
+      #tlscipherall:

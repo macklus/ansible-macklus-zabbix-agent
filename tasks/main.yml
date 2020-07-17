@@ -3,7 +3,6 @@
 
 - name: "Install Zabbix agent if desired"
   include_tasks: "install/{{ ansible_distribution }}.yml"
-  when: macklus.zabbix.agent.install|bool == true
 
 - name: "Install User Parameters"
   template:
@@ -13,5 +12,5 @@
     group: root
     mode: 0644
   with_items: "{{ macklus.zabbix.agent.userparameters }}"
-  when: macklus.zabbix.agent.install|bool == true and macklus.zabbix.agent.userparameters is defined
+  when: macklus.zabbix.agent.userparameters is defined
   notify: restart-zabbix-agent
