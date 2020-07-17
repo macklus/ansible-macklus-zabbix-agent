@@ -1,5 +1,6 @@
 ---
 # file: tasks/install/CentOS.yml
 
-- fail:
+- name: Fail
+  fail:
     msg: This distribution is not supported yet. Please ask for support on github
