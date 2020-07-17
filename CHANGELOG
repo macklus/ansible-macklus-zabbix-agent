@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Maintainers:
 - José Pedro Andrés (@macklus)
 
-## [1.0.0] - 2020-05-05 - @macklus
-## Added
-- First usable version
+## [1.0.2] - 2020-05-05 - @macklus
+## Fixed
+- Fix underscore on rolename
 
 ## [1.0.1] - 2020-05-05 - @macklus
 ## Fixed
 - Missing metadata directory
 
-## [1.0.2] - 2020-05-05 - @macklus
-## Fixed
-- Fix underscore on rolename
+## [1.0.0] - 2020-05-05 - @macklus
+## Added
+- First usable version
