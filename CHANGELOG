@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Maintainers:
 - José Pedro Andrés (@macklus)
 
+## [1.0.3] - 2020-07-17 - @macklus
+## Fixed
+- Add Zabbix 5.0 preliminar support
+- Fix ansible-galaxy styles
+
 ## [1.0.2] - 2020-05-05 - @macklus
 ## Fixed
 - Fix underscore on rolename
