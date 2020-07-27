@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+#
+option=$1
+extra=$2
+
+if [ "$option" == "lf" ]
+then
+    d=`date +"%b %d %H:%M"`
+    echo `grep "$d" /var/log/lfd.log | grep "\[$extra\]" | wc -l`
+fi

@@ -3,7 +3,7 @@
 
 - name: restart-zabbix-agent
   service: 
-    name: nginx
+    name: zabbix-agent
     state: restarted  
     enabled: yes
   become: yes

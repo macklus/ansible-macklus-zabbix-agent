@@ -1,0 +1,54 @@
+---
+# file: tasks/userparameters/mysql.yml
+- name: "Zabbix :: User Parameters :: Mysql :: Copy file"
+  template:
+      src: "templates/{{ macklus.zabbix.agent.version }}/template_db_mysql.conf.j2"
+      dest: "/etc/zabbix/zabbix_agentd.d/template_db_mysql.conf"
+      owner: zabbix
+      group: zabbix
+      mode: 0644
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: Mysql :: Fetching zabbix home dir"
+  getent:
+    database: passwd
+    key: zabbix
+    split: ":"
+  become: true
+  become_user: zabbix
+  register: d
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: Mysql :: Ensure zabbix home dir"
+  file:
+    path: "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}"
+    owner: zabbix
+    group: zabbix
+    state: directory
+    mode: 0755
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+  
+- name: "Zabbix :: User Parameters :: Mysql :: Create .my.cnf file"
+  template:
+    src: "templates/{{ macklus.zabbix.agent.version }}/my.cnf.j2"
+    dest: "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}/.my.cnf"
+    owner: zabbix
+    group: zabbix
+    mode: 0600
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: Mysql :: Ensure delete files"
+  file:
+      path: "{{ file }}"
+      state: absent
+  with_items:
+    - "/etc/zabbix/zabbix_agentd.d/template_db_mysql.conf"
+    - "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}/.my.cnf"
+  loop_control:
+    loop_var: file
+  when: item.value.enable|bool == False
+  notify: restart-zabbix-agent

@@ -1,0 +1,55 @@
+---
+# file: tasks/userparameters/csf.yml
+- name: "Zabbix :: User Parameters :: CSF :: Copy conf file"
+  template:
+    src: "templates/{{ macklus.zabbix.agent.version }}/app_csf/template_app_csf.conf.j2"
+    dest: "/etc/zabbix/zabbix_agentd.d/template_app_csf.conf"
+    owner: zabbix
+    group: zabbix
+    mode: 0644
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: CSF :: Ensure /etc/zabbix/bin directory"
+  file:
+    path: /etc/zabbix/bin
+    owner: zabbix
+    group: zabbix
+    state: directory
+    mode: 0755
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: CSF :: Copy bin file"
+  template:
+    src: "templates/{{ macklus.zabbix.agent.version }}/app_csf/csf.sh.j2"
+    dest: "/etc/zabbix/bin/csf.sh"
+    owner: zabbix
+    group: zabbix
+    mode: 0755
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: CSF :: Sudoers file"
+  template:
+    src: "templates/{{ macklus.zabbix.agent.version }}/app_csf/sudoers.j2"
+    dest: "/etc/sudoers.d/zabbix_agent_csf"
+    owner: root
+    group: root
+    mode: 0440
+    validate: 'visudo -cf %s'
+  when: item.value.enable|bool == True
+  notify: restart-zabbix-agent
+
+- name: "Zabbix :: User Parameters :: CSF :: Ensure deleted files"
+  file:
+      path: "{{ file }}"
+      state: absent
+  with_items:
+    - "/etc/zabbix/zabbix_agentd.d/template_app_csf.conf"
+    - "/etc/zabbix/bin/csf.sh"
+    - "/etc/sudoers.d/zabbix_agent_csf"
+  loop_control:
+    loop_var: file
+  when: item.value.enable|bool == False
+  notify: restart-zabbix-agent
