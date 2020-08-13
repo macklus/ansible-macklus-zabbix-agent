@@ -21,9 +21,17 @@
   when: item.value.enable|bool == True
   notify: restart-zabbix-agent
 
+# get root user info
+- getent:
+    database: passwd
+    key: zabbix
+
+- debug:
+    var: getent_passwd
+
 - name: "Zabbix :: User Parameters :: Mysql :: Ensure zabbix home dir"
   file:
-    path: "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}"
+    path: "{{ getent_passwd['zabbix'][4] }}"
     owner: zabbix
     group: zabbix
     state: directory
@@ -34,7 +42,7 @@
 - name: "Zabbix :: User Parameters :: Mysql :: Create .my.cnf file"
   template:
     src: "templates/{{ macklus.zabbix.agent.version }}/my.cnf.j2"
-    dest: "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}/.my.cnf"
+    dest: "{{ getent_passwd['zabbix'][4] }}/.my.cnf"
     owner: zabbix
     group: zabbix
     mode: 0600
@@ -47,7 +55,7 @@
       state: absent
   with_items:
     - "/etc/zabbix/zabbix_agentd.d/template_db_mysql.conf"
-    - "{{ d['ansible_facts']['getent_passwd']['zabbix'][4] }}/.my.cnf"
+    - "{{ getent_passwd['zabbix'][4] }}/.my.cnf"
   loop_control:
     loop_var: file
   when: item.value.enable|bool == False

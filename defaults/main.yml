@@ -24,8 +24,8 @@ macklus:
       #listenip:
       #startagents:
       serveractive: 127.0.0.1
-      hostname:
-      hostnameitem:
+      #hostname:
+      #hostnameitem:
       #hostmetadata:
       #hostmetadataitem:
       #hostinterface:
